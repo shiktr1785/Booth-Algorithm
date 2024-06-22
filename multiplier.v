@@ -131,5 +131,12 @@ begin
         n1_mag = ~n1[10:0] + 1;
 end
 
+always @(n2)
+begin
+    if (n2[7] == 1'b0)
+        n2_mag = n2[7:0];
+    else
+        n2_mag = ~n2[7:0] + 1;
+end
 
 endmodule
