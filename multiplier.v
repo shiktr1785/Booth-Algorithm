@@ -203,6 +203,50 @@ begin
 end
 
 //MSB is added here along with carry
+assign s11b[5:0] = {1'b0, p1_reg2[10:7]} + p2_reg2[10:6] + s11a_reg2[6];
+assign s12b[5:0] = {1'b0, p3_reg2[10:7]} + p2_reg2[10:6] + s12a_reg2[6];
+assign s13b[5:0] = {1'b0, p3_reg2[10:7]} + p4_reg2[10:6] + s13a_reg2[6];
+assign s14b[5:0] = {1'b0, p5_reg2[10:7]} + p4_reg2[10:6] + s14a_reg2[6];    //MSB and LSB are concatenated here
+
+assign s11[12:0] = {s11b, s11a_reg2[5:0], p1_reg2[0]};   //Concatenated MSB, LSB, and 0th bit respectively
+assign s12[12:0] = {s12b, s12a_reg2[5:0], p3_reg2[0]};
+assign s13[12:0] = {s13b, s13a_reg2[5:0], p5_reg2[0]};
+assign s14[12:0] = {s14b, s14a_reg2[5:0], p7_reg2[0]};
+
+always @(posedge clk)       //third pipeline register at clk (3)
+
+begin
+    s11_reg3 <= s11;    //Store for further processing
+    s12_reg3 <= s12;
+    s13_reg3 <= s13;
+    s14_reg3 <= s14;
+
+    n1_reg3 <= n1_reg2;
+    n2_reg3 <= n2_reg2;
+    n1orn2z_reg3 <= n1orn2z_reg2;
+end
+
+assign s21a[7:0] = s11_reg3[8:2] + s12_reg3[6:0];     //s21a[7] is the carry bit
+assign s22a[7:0] = s13_reg3[8:2] + s14_reg3[6:0];     //LSB sum and second stage
+
+always @(posedge clk)       //fourth pipeline register at clk (4)
+begin
+    s11_reg4[12:9] <= s11_reg3[12:9];   //store bits not yet processed
+    s11_reg4[1:0] <= s11_reg3[1:0];
+    s12_reg4[12:7] <= s12_reg3[12:7];
+    s13_reg4[12:9] <= s13_reg3[12:9];
+    s13_reg4[1:0] <= s13_reg3[1:0];
+    s14_reg4[12:7] <= s14_reg3[12:7];
+
+    s21a_reg4 <= s21a;      //store LSB, second stage partial sums.
+    s22a_reg4 <= s22a;
+    n1_reg4 <= n1_reg3;
+    n2_reg4 <= n2_reg3;
+    n1orn2z_reg4 <= n1orn2z_reg3;
+end
+
+//MSB is added here along with carry
+
 
 
 endmodule
