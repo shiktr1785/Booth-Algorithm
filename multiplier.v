@@ -84,5 +84,52 @@ reg n2_reg5;
 reg n2_reg6;
 reg n2_reg7;
 
+reg n1orn2z_reg1;
+reg n1orn2z_reg2;
+reg n1orn2z_reg3;
+reg n1orn2z_reg4;
+reg n1orn2z_reg5;
+reg n1orn2z_reg6;
+reg n1orn2z_reg7;
+
+reg [10:0] p1_reg2;
+reg [10:0] p2_reg2;
+reg [10:0] p3_reg2;
+reg [10:0] p4_reg2;
+reg [10:0] p5_reg2;
+reg [10:0] p6_reg2;
+reg [10:0] p7_reg2;
+reg [10:0] p8_reg2;
+
+reg [12:0] s11_reg3;
+reg [12:0] s12_reg3;
+reg [12:0] s13_reg3;
+reg [12:0] s14_reg3;
+
+reg [12:0] s11_reg4;
+reg [12:0] s12_reg4;
+reg [12:0] s13_reg4;
+reg [12:0] s14_reg4;
+
+reg [7:0] s21a_reg4;
+reg [7:0] s22a_reg4;
+
+reg [14:0] s21_reg5;
+reg [14:0] s22_reg5;
+reg [14:0] s21_reg6;
+reg [14:0] s22_reg6;
+
+reg [8:0] s31a_reg6;
+reg [17:0] s31_reg7;
+reg [18:0] result;
+
+always @(n1)
+begin
+    if (n1[10] == 1'b0)
+        n1_mag = n1[10:0];
+    else
+        n1_mag = ~n1[10:0] + 1;
+end
+
 
 endmodule
